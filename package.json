@@ -1,0 +1,30 @@
+{
+  "name": "write-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "src/nodemon src --ignore sessions",
+    "deploy": "git push heroku master",
+    "lint": "standard | snazzy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capucinel/write-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/capucinel/write-server/issues"
+  },
+  "homepage": "https://github.com/capucinel/write-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "mysql2": "^1.5.3",
+    "router": "^1.3.3"
+  }
+}
