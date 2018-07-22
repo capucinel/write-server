@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise')
+const mysql = require('mysql')
 
 const connection  = mysql.createConnection({
     host: "localhost",
@@ -7,15 +7,25 @@ const connection  = mysql.createConnection({
     database: "writedb"
 })
 
-const exec = async (query, params) => {
-    const c = await connection
-    const result = await c.execute(query, params)
-    return result[0]
-  }
+connection.connect((err) => {
+    if (err) throw err;
+    console.log("Connected!");
+  });
 
-const getWritings = () =>  exec("SELECT * FROM writings")
+  //rest api to get all results
 
-  
-module.exports = { getWritings }
+
+// const exec = async (query, params) => {
+//     const c = await connection
+//     const result = await c.execute(query, params)
+//     return result[0]
+//   }
+
+
+// // const getWritings = () =>  exec("SELECT * FROM writings")
+
+// const deleteWriting = id => exec("DELETE FROM writings WHERE id_writings = ?", [id])
+
+module.exports = connection
 
 
