@@ -25,20 +25,45 @@ app.get("/", (req, res) => {
 })
 
 app.get('/writings', (req, res, error) => {
-    console.log(req);
-    connection.query('select * from writings', (error, results, fields) => {
+    connection.query('SELECT id_writings, title, media_url, content, nom_theme FROM writings, themes', (error, results, fields) => {
         if (error) throw error;
         res.end(JSON.stringify(results));
     })
 })
 
-app.post('/writings/delete/id=:id', function (req, res) {
-    connection.query('DELETE FROM writings WHERE id_writings = ?', [req.body.id], (error, results, fields) => {
-        if (error) throw error
-        res.end('Record has been deleted!')
+app.get('/themes', (req, res, error) => {
+    connection.query('SELECT * FROM themes', (error, results, fields) => {
+        if (error) throw error;
+        res.end(JSON.stringify(results));
     })
 })
 
-let server = app.listen(process.env.PORT || 3333, () => {
+app.post('/writings/delete/id=:id', (req, res) => {
+    connection.query('DELETE FROM writings WHERE id_writings = ?', [req.body.id], (error, results, fields) => {
+        if (error) throw error
+        res.end('Record has been deleted!') 
+    })
+})
+
+app.post('/newwrite', (req, res, next) => {
+    const titre = req.body.titreForm
+    const texte = req.body.texteForm
+    const idTheme = req.body.idThemeForm
+ 
+    connection.query(`INSERT INTO writings 
+    (title, content, id_theme) 
+    VALUES (?, ?, ?)`, [titre, texte, idTheme], (error, result, fields) => {
+      if (error)
+        res.status(500).json({
+          flash: error.message
+        });
+      else
+        res.status(200).json({
+          flash: "ok"
+        });
+    })
+  })
+
+let server = app.listen(process.env.PORT || 4444, () => {
     console.log("listening on port ", server.address().port)
 })
