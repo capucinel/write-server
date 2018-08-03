@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 })
 
 app.get('/writings', (req, res, error) => {
-    connection.query('SELECT id_writings, title, media_url, content, nom_theme FROM writings, themes', (error, results, fields) => {
+    connection.query('SELECT * FROM writings LEFT JOIN themes ON writings.id_theme = themes.id_theme', (error, results, fields) => {
         if (error) throw error;
         res.end(JSON.stringify(results));
     })
@@ -64,6 +64,6 @@ app.post('/newwrite', (req, res, next) => {
     })
   })
 
-let server = app.listen(process.env.PORT || 4444, () => {
+let server = app.listen(process.env.PORT || 3333, () => {
     console.log("listening on port ", server.address().port)
 })
